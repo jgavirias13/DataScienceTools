@@ -1,7 +1,7 @@
-determinantes = zeros(1,9);
-enes = zeros(1,9);
-condiciones = zeros(1,9);
-for n=2:10
+determinantes = zeros(1,20);
+enes = zeros(1,20);
+condiciones = zeros(1,20);
+for n=2:21
     hilber = zeros(n,n);
     for i=1:n
         for j=1:n
