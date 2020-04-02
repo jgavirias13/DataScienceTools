@@ -104,9 +104,7 @@ function  [assignments, centers] = custKMeans(X, k, p, iteraciones)
         for rowIx = 1:rows
 			minDist = realmax;
 			assignTo = 0;
-            for centerIx = 1:k 
-				% Por defecto se usa la distancia euclidiana
-                % Pendiente cambiar
+            for centerIx = 1:k
                 dist = funcDist(X(rowIx,:)',centers(centerIx,:)',invcov);
                 % Iterativamente se busca el k a donde asignar los puntos
                 if dist < minDist
