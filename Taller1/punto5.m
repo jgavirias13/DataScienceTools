@@ -11,7 +11,7 @@
 % Simulacion de distribuciones bivariantes
 
 % Matriz de n, elementos
-n = [1000, 4600, 100];
+n = [1000, 600, 100];
 % Matriz de medias
 mu = [0 1; 5 5; 8 2.5];
 % Correlacion de las variables
@@ -26,7 +26,7 @@ distribucion3 = mvnrnd(mu(3,:), sigma3, n(3));
 X = cat(1, distribucion1, distribucion2, distribucion3);
 % plot(X(:,1),X(:,2),'o');
 
-[assig, cent] = custKMeans(X,3,1,100000);
+[assig, cent] = custKMeans(X,3,2,100000);
 
 plot(X(assig==1,1),X(assig==1,2),'bo');
 hold on
@@ -46,6 +46,8 @@ plot(distribucion3(:,1),distribucion3(:,2),'yo');
 % p -> Distancia
 %   0 - Mahalanobis
 %   1 - Euclidia
+%   2 - Manhattan
+%   3 - Infinita
 % iteraciones -> Numero de iteraciones para converger
 function  [assignments, centers] = custKMeans(X, k, p, iteraciones)
     invcov = inv(cov(X));
@@ -57,6 +59,11 @@ function  [assignments, centers] = custKMeans(X, k, p, iteraciones)
         % Euclidia
         case 1
             funcDist = @euclidia;
+        % Manhattan
+        case 2
+            funcDist = @manhattan;
+        case 3
+            funcDist = @infinita;
         %por defecto se aplica mahalanobis
         otherwise
             invcov = inv(cov(X));
@@ -153,5 +160,13 @@ function dist = mahalanobis(x,y,invCov)
 end
 
 function dist = euclidia(x,y,invcov)
-    dist = sqrt(sum((x-y)^2));
+    dist = sqrt(sum((x-y).^2));
+end
+
+function dist = manhattan(x,y,incov)
+    dist = sum(abs(x-y));
+end
+
+function dist = infinita(x,y,incov)
+    dist = max(abs(x-y));
 end
