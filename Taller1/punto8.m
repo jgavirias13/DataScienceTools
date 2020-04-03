@@ -39,11 +39,7 @@ for i=1:columns
     jaccardDistance(i) = jaccardC(a,b,c,d);
     diceDistance(i) = diceC(a,b,c);    
 end
-plot(pearsonDistance,'r')
-hold on
-plot(jaccardDistance,'b')
-hold on
-plot(diceDistance,'g');
+
 % Se sacan los 10 activos mas parecidos y menos parecidos para cada
 % distancia
 
