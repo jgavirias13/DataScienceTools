@@ -31,18 +31,26 @@ pearsonDistance = zeros(columns,1);
 jaccardDistance = zeros(columns,1);
 diceDistance = zeros(columns,1);
 for i=1:columns
-    pearsonDistance(i) = pearson(matrizBinaria(:,i),arregloBinarioMedias);
-    jaccardDistance(i) = jaccard(matrizBinaria(:,i),arregloBinarioMedias);
-    diceDistance(i) = dice(matrizBinaria(:,i),arregloBinarioMedias);    
+    a = sum(and(matrizBinaria(:,i),arregloBinarioMedias));
+    b = sum(and(matrizBinaria(:,i),~arregloBinarioMedias));
+    c = sum(and(~matrizBinaria(:,i),arregloBinarioMedias));
+    d = sum(and(~matrizBinaria(:,i),~arregloBinarioMedias));
+    pearsonDistance(i) = pearson(a,b,c,d);
+    jaccardDistance(i) = jaccardC(a,b,c,d);
+    diceDistance(i) = diceC(a,b,c);    
 end
-
+plot(pearsonDistance,'r')
+hold on
+plot(jaccardDistance,'b')
+hold on
+plot(diceDistance,'g');
 % Se sacan los 10 activos mas parecidos y menos parecidos para cada
 % distancia
 
 % pearson
 pearson90 = prctile(pearsonDistance,90);
 pearson10 = prctile(pearsonDistance,10);
-pearson10mas = find(pearsonDistance > pearson90);
+pearson10mas = find(pearsonDistance >= pearson90);
 pearson10menos = find(pearsonDistance < pearson10);
 
 % jaccard
@@ -54,15 +62,20 @@ jaccard10menos = find(jaccardDistance < jaccard10);
 % dice
 dice90 = prctile(diceDistance,90);
 dice10 = prctile(diceDistance,10);
-dice10mas = find(diceDistance > dice90);
+dice10mas = find(diceDistance >= dice90);
 dice10menos = find(diceDistance < dice10);
 
 % Distancia pearson
-% Basado en el coeficiente de correlacion de Pearson
-function distance = pearson(x,y)
-    xmu = mean(x);
-    ymu = mean(y);
-    covar = sum((x-xmu).*(y-ymu));
-    stand = sqrt(sum((x-xmu).^2))*sqrt(sum((y-ymu).^2));
-    distance = 1 - (covar/stand);
+function distance = pearson(a,b,c,d)
+    distance = (a*d - b*c)/sqrt((a+c)*(b+d)*(a+b)*(c+d));
+end
+
+% Distancia Jaccard
+function distance = jaccardC(a,b,c,d)
+    distance = a / (b+c+d);
+end
+
+% Distancia Dice
+function distance = diceC(a,b,c)
+    distance = 2*a / (2*a+b+c);
 end
