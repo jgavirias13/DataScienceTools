@@ -13,7 +13,7 @@ Gcomponent = imagenOriginal(:,:,2);
 Bcomponent = imagenOriginal(:,:,3);
 
 inicial = 1;
-final = 10000;
+final = 1000;
 distance1 = zeros(final,1);
 distance2 = zeros(final,1);
 distanceinf = zeros(final,1);
@@ -22,14 +22,13 @@ distancefro = zeros(final,1);
 parfor i=inicial:final
     [newR, newG, newB] = agregarRuido(Rcomponent,Gcomponent,Bcomponent,i);
     newImage = cat(3,newR,newG,newB);
-    [norm1, norm2, norminf, normfro] = distancias(imagenOriginal, newImage);
+    [norm1, norm2, norminf, normfro] = distanciasImg(imagenOriginal, newImage);
     distance1(i) = norm1;
     distance2(i) = norm2;
     distanceinf(i) = norminf;
     distancefro(i) = normfro;
     %imshow([imagenOriginal newImage]);
 end
-
 plot(distance1, 'r');
 hold on
 plot(distance2, 'b');
@@ -50,7 +49,7 @@ function [newR, newG, newB] = agregarRuido(R,G,B,n)
 end
 
 % Calculo de distancias
-function [distance1,distance2,infinito,frobenius] = distancias(x,y)
+function [distance1,distance2,infinito,frobenius] = distanciasImg(x,y)
     xyR = x(:,:,1) - y(:,:,1);
     xyG = x(:,:,2) - y(:,:,2);
     xyB = x(:,:,3) - y(:,:,3);

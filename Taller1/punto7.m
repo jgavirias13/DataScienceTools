@@ -7,14 +7,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Preparacion de la data
-data = readmatrix('100_Portfolios_ME_OP_10x10_tratado.txt');
+data = readmatrix('100_Portfolios_ME_INV_10x10_tratado.txt');
 data(:,1) = [];
 percentilOutlier = 80;
 
 % Identificacion de outliers con covarianza habitual
 covarianza = cov(data);
 mu = mean(data);
-distHabitual = mahalanobis(data, covarianza, mu);
+distHabitual = mahalanobis6(data, covarianza, mu);
 outIndHabitual = prctile(distHabitual,percentilOutlier);
 outliersHabitual = find(distHabitual>outIndHabitual);
 figure
@@ -26,7 +26,7 @@ title('Ouliers covarianza habitual');
 % Identificacion de outliers con covarianza shrinkage
 covarianza = cov1para(data);
 mu = mean(data);
-distShrinkage = mahalanobis(data, covarianza, mu);
+distShrinkage = mahalanobis6(data, covarianza, mu);
 outIndShrinkage = prctile(distShrinkage,percentilOutlier);
 outliersShrinkage = find(distShrinkage>outIndShrinkage);
 figure
@@ -37,7 +37,7 @@ title('Outliers covarianza Shrinkage');
 
 % Identificacion de outliers con covarianza minima curtosis
 [idx, dm, mu, covarianza] = kur_main(data);
-distMinCur = mahalanobis(data, covarianza, mu);
+distMinCur = mahalanobis6(data, covarianza, mu);
 outIndMinCur = prctile(distMinCur,percentilOutlier);
 outliersMinCur = find(distMinCur>outIndMinCur);
 figure
@@ -54,7 +54,7 @@ plot(data(idx==1,1),data(idx==1,2),'ro');
 title('Outliers idx Minima Curtosis');
 
 % Distancia de Mahalanobis
-function dist = mahalanobis(x, covarianza, mu)
+function dist = mahalanobis6(x, covarianza, mu)
     inversa = inv(covarianza);
     row= size(x,1);
     

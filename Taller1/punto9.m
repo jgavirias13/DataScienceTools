@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Preparacion de la data
-data = readmatrix('100_Portfolios_ME_OP_10x10_tratado.txt');
+data = readmatrix('100_Portfolios_ME_INV_10x10_tratado.txt');
 fechas = data(:,1);
 data(:,1) = [];
 [rows, columns] = size(data);
@@ -24,8 +24,8 @@ mu1(positivos) = 1;
 
 % Se calcula la distancia de todos los meses a la media
 distancias = distanciaBinaria(matrizBinaria, mu1);
-recorte = prctile(jaccardDistance,90);
-outliers = find(jaccardDistance > jaccard90);
+recorte = prctile(distancias,90);
+outliers = find(distancias > recorte);
 
 fechasRaras = fechas(outliers);
 

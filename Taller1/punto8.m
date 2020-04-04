@@ -9,7 +9,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Preparacion de la data
-data = readmatrix('100_Portfolios_ME_OP_10x10_tratado.txt');
+data = readmatrix('100_Portfolios_ME_INV_10x10_tratado.txt');
 data(:,1) = [];
 
 % Media de cada fila
