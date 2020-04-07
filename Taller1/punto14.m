@@ -36,7 +36,7 @@ for n=2:iteraciones
     % con covarianza hilbert
     mu = zeros(1,n);
     data = mvnrnd(mu,hilber,10000);
-    cov = cov1para_sam(data,hilber);
+    [cov,sr] = cov1para_sam(data,hilber);
     condicionesShr(n) = cond(cov);
     determinantesShr(n) = det(cov);
 end
