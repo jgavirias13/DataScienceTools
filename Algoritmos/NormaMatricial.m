@@ -1,11 +1,10 @@
-% Calculo de normas matriciales
+%% Calculo de normas matriciales
 % Se hace simulacion montecarlo para simular los x cuya ||x||p = 1
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%A = [1 2;1 5;3 1;];
+% A = [1 2;1 5;3 1;];
 A = rand(100,2);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Norma 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Norma 2
 
 % Se coloca x como un par sen(teta) cos(teta)
 % Se simulan valores aleatorios para theta
@@ -20,7 +19,7 @@ X = [x y]';
 % Cada columan en v es un vector AX
 v = A*X;
 % Se calcula la norma de cada vector
-n = size(v,2);
+n = size(v,2);  
 norma = zeros(1,n);
 for i=1:n
     norma(i) = norm(v(:,i),2);
